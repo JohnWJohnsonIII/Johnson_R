@@ -45,7 +45,13 @@ Test_Plot <- Test_Plot + aes(y=..density..) +
 
 #creates density histogram for price #need it to flip the other way
 ydensity <- data.frame(diamonds$price, diamonds$color) #extracting data frame and putting it in a variable
-Test_Plot_2 <- ggplot(Test_Frame, aes(x=ydensity[[1]]), color = diamonds$color) #mapping variable to x axis
+
+## Prof G: Test_Frame is not defined
+#Test_Plot_2 <- ggplot(Test_Frame, aes(x=ydensity[[1]]), color = diamonds$color) #mapping variable to x axis
+## Prof G: Try to fix it.
+Test_Plot_2 <- ggplot(ydensity, aes(x=ydensity[[1]]), color = diamonds$color) #mapping variable to x axis
+
+
 Test_Plot_2 <- Test_Plot_2 + geom_histogram(binwidth = 100) + aes(y=..density.., fill = factor(diamonds$color), color = factor(diamonds$color)) + #bin width of 100 should get close to plot in hw assignment
   coord_flip() +  labs(x="", y="") + theme(legend.position = "none") #rotates plot, but not the direction I want. No labels. Also eliminates legend 
 #print(Test_Plot_2)
@@ -90,3 +96,4 @@ vplayout <- function(x,y) viewport(layout.pos.row =x, layout.pos.col = y) #creat
 print(scattered_resids, vp = vplayout(1:6, 1:6))
 print(Test_Plot_2, vp= vplayout(6, 1:2))
 print(Test_Plot, vp = vplayout(2, 5:6)) #using similar approach to #3, but assigning to cells occupied by other plots
+
