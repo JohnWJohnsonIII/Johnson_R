@@ -1,0 +1,42 @@
+Multiple Regression and LOESS
+
+d <- read.csv("C:/Users/John Johnson/Desktop/financials 2.csv")
+View(d)
+
+require(ggplot2)
+require(stats)
+require(corrgram)
+
+
+cor(d[,2:ncol(d)], method = 'pearson')
+
+#scatter
+qplot(d$Employees, d$Revenue)
+
+#correlate
+cor(d$Employees, d$Revenue)
+
+#visualize
+cfs <- coef(lm(d$Revenue~d$Employees, data = d)) #line of fit formula as follows -- coef(lm(y~x, data = [dataset_name]))
+ggplot(d, aes(Employees, Revenue)) + geom_abline(intercept = cfs[1], slope = cfs[2]) + geom_point()+ 
+  labs(title="Employees vs Revenue") + xlab("Employees") + ylab("Revenue")
+
+
+#Multiple Regression Model
+meas <- lm(Revenue~Employees + Market.Cap + Debt + Assets, data = d)
+summary(meas)
+
+
+#Predict new obs
+new.dat <- data.frame(Employees= ,
+                      Market.Cap= ,
+                      Debt = ,
+                      Assets = )
+
+predict(meas, newdata=new.dat, int = 'pred', level = .95)
+
+
+#LOESS Model
+lo <- loess(Revenue~Employees + Market.Cap + Debt + Assets, d, control=loess.control(surface="direct"))
+#predict new obs using LOESS
+predict(lo, newdata=new.dat)
